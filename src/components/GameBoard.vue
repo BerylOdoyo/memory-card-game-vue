@@ -15,12 +15,27 @@ export default {
       disableDeck: false,
       targetWord: "",
       startTime: "",
+
     };
   },
   mounted() {
     this.shuffleCards();
   },
   methods: {
+    startGame() {
+      console.log("Game started!");
+
+      this.targetWord = "Match The Cards";
+      this.shortmessage.innerHTML = `<span>${targetWord}</span>`;
+
+      this.start.className = "started";
+      this.message.innerHTML = "";
+
+      this.startTime = new Date().getTime();
+      setTimeout(() => {
+        this.start.className = "button";
+      }, 2000);
+    },
     shuffleCards() {
       this.matchedPairs = 0; // reset matchedPairs variable to 0
       this.disableDeck = false; // reset disableDeck boolean
@@ -61,6 +76,7 @@ export default {
         if (this.matchedPairs == 8) {
           // if your number of matches is 8, you've made all the matches! Game Won!
           console.log(`YOU WIN!`);
+          this.gameOver();
           return; // for now, lets call this game over, end this function and do nothing else.
         }
         // everything below will execute if the game has not yet been won...
@@ -86,6 +102,12 @@ export default {
         return;
       }, 1200);
     },
+    gameOver() {
+    this.elapsedTime = new Date().getTime() - this.startTime;
+    this.document.body.classname = "winner";
+    this.message.innerHTML = `<span class="congrats">Congratulations!</span><br />
+    You finished in ${this.elapsedTime / 1000} seconds`;
+  }
   },
 };
 </script>
